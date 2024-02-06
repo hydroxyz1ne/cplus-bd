@@ -80,13 +80,13 @@ public:
 
     void sortDatabase() {
         int sortChoice;
-        std::cout << "\n----- Sort Options -----\n";
-        std::cout << "1. Sort by Brand\n";
-        std::cout << "2. Sort by Cost\n";
-        std::cout << "3. Sort by Country\n";
-        std::cout << "4. Sort by Color\n";
-        std::cout << "5. Sort by Showroom\n";
-        std::cout << "Enter your choice: ";
+        std::cout << "\n----- Сортировка -----\n";
+        std::cout << "1. Сортировка по марке\n";
+        std::cout << "2. Сортировка по цене\n";
+        std::cout << "3. Сортировка по стране изготовителе\n";
+        std::cout << "4. Сортировка по цвету\n";
+        std::cout << "5. Сортировка по салонам\n";
+        std::cout << "Введите значение сортировки, которую вы хотите выполнить ";
         std::cin >> sortChoice;
 
         switch (sortChoice) {
@@ -106,7 +106,7 @@ public:
             sortRecordsByShowroom();
             break;
         default:
-            std::cout << "Invalid choice. Returning to main menu.\n";
+            std::cout << "Неизвестный вариант. Попробуйте что-то другое.\n";
         }
         system("cls");
     }
