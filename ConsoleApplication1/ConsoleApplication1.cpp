@@ -1,42 +1,42 @@
 ﻿#include <iostream>
 #include <fstream>
-#include<string.h>
-#include<algorithm>
-#include<vector>
+#include <string>
+#include <algorithm>
+#include <vector>
 
 struct Car {
-	std::string brand;
-	double cost = 0.0;
-	std::string country;
-	std::string color;
+    std::string brand;
+    double cost = 0.0;
+    std::string country;
+    std::string color;
     std::string showroom;
-
 };
-
 
 class CarDatabase {
 private:
     std::vector<Car> cars;
-    std::string filename;
 
 public:
-
-    CarDatabase(const std::string& filename) : filename(filename) {
-        loadDatabase();
+    CarDatabase(const std::string& filename) {
+        loadDatabase(filename);
     }
 
-    void loadDatabase() {
-        std::ifstream inputFile(filename.c_str());
-        if (inputFile.is_open()) {
-            cars.clear();
-            Car car;
-            while (inputFile >> car.brand >> car.cost >> car.country >> car.color >> car.showroom) {
-                cars.push_back(car);
-            }
-            inputFile.close();
+    // Load database from a file
+    void loadDatabase(const std::string& filename) {
+        std::ifstream inputFile(filename);
+
+        if (!inputFile.is_open()) {
+            std::cerr << "Error: Unable to open file " << filename << std::endl;
+            return;
         }
-    }
 
+        Car car;
+        while (inputFile >> car.brand >> car.cost >> car.country >> car.color >> car.showroom) {
+            cars.push_back(car);
+        }
+
+        inputFile.close();
+    }
 
     void mainMenu() {
         int choice;
@@ -48,7 +48,7 @@ public:
             std::cout << "(4) Поиск по базе данных\n";
             std::cout << "(5) Сортировка базы данных\n";
             std::cout << "(0) Выход\n";
-            std::cout << "Введите значение действия, которое хотите выполнить ";
+            std::cout << "Введите значение действия, которое хотите выполнить: ";
             std::cin >> choice;
 
             switch (choice) {
@@ -74,10 +74,14 @@ public:
             default:
                 std::cout << "Неизвестный вариант. Попробуйте что-то другое.\n";
             }
-            system("cls");
-        } while (choice != 6);
+
+            std::cout << "Нажмите Enter для продолжения...";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        } while (choice != 0);
     }
 
+    // Sort the database based on user input
     void sortDatabase() {
         int sortChoice;
         std::cout << "\n----- Сортировка -----\n";
@@ -86,7 +90,7 @@ public:
         std::cout << "3. Сортировка по стране изготовителе\n";
         std::cout << "4. Сортировка по цвету\n";
         std::cout << "5. Сортировка по салонам\n";
-        std::cout << "Введите значение сортировки, которую вы хотите выполнить ";
+        std::cout << "Введите значение сортировки, которую вы хотите выполнить: ";
         std::cin >> sortChoice;
 
         switch (sortChoice) {
@@ -108,14 +112,14 @@ public:
         default:
             std::cout << "Неизвестный вариант. Попробуйте что-то другое.\n";
         }
-        system("cls");
     }
 
+    // Add a new record to the database
     void addRecord() {
         Car newCar;
-        std::cout << "Введите бренд:";
+        std::cout << "Введите бренд: ";
         std::cin >> newCar.brand;
-        std::cout << "Введите стоимость:";
+        std::cout << "Введите стоимость: ";
         std::cin >> newCar.cost;
         std::cout << "Введите страну производителя: ";
         std::cin >> newCar.country;
@@ -129,20 +133,26 @@ public:
     }
 
     void deleteRecord() {
-        std::string brandToDelete;
-        std::cout << "Введите бренд, чтобы удалить: ";
+        std::string brandToDelete, colorToDelete, countryToDelete;
+        std::cout << "Введите бренд для удаления: ";
         std::cin >> brandToDelete;
+        std::cout << "Введите цвет для удаления: ";
+        std::cin >> colorToDelete;
+        std::cout << "Введите страну для удаления: ";
+        std::cin >> countryToDelete;
 
-        auto it = std::remove_if(cars.begin(), cars.end(),
-            [brandToDelete](const Car& car) { return car.brand == brandToDelete; });
+        auto it = std::remove_if(cars.begin(), cars.end(), [brandToDelete, colorToDelete, countryToDelete](const Car& car) {
+            return car.brand == brandToDelete && car.color == colorToDelete && car.country == countryToDelete;
+            });
         cars.erase(it, cars.end());
 
-        std::cout << "Запись с брендом " << brandToDelete << " удалена.\n";
+        std::cout << "Записи с брендом " << brandToDelete << ", цветом " << colorToDelete << " и производителем " << countryToDelete << " удалены.\n";
     }
 
     void viewDatabase() {
         for (const auto& car : cars) {
-            std::cout << "Марка" << car.brand << "Стоимость" << car.cost << "Страна изготовитель" << car.country << "Цвет" << car.color << "Название салона продаж" << car.showroom;
+            std::cout << "Марка: " << car.brand << ", Стоимость: " << car.cost << ", Страна: " << car.country
+                << ", Цвет: " << car.color << ", Салон: " << car.showroom << std::endl;
         }
     }
 
@@ -245,12 +255,10 @@ public:
     }
 };
 
-
-
-
 int main() {
     setlocale(0, "rus");
-    CarDatabase carDB("car_database.txt");
+    std::string filePath = "C:\\Users\\Родик\\source\\repos\\hydroxyz1ne\\cplus-bd\\ConsoleApplication1\\car_database.txt";
+    CarDatabase carDB(filePath);
     carDB.mainMenu();
     return 0;
 }
