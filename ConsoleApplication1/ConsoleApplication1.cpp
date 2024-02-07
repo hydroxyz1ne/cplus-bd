@@ -26,7 +26,7 @@ public:
         std::ifstream inputFile(filename);
 
         if (!inputFile.is_open()) {
-            std::cerr << "Error: Unable to open file " << filename << std::endl;
+            std::cerr << "Ошибка. Невозможно открыть файл" << filename << std::endl;
             return;
         }
 
@@ -37,6 +37,21 @@ public:
 
         inputFile.close();
     }
+
+    void saveDatabase() {
+        std::ifstream inputFile(filename);
+
+        if (!inputFile.is_open()) {
+            std::cerr << "Невозможно сохранить файл." << filename << std::endl;
+            return;
+        }
+        for (const auto& car : cars) {
+            outputFile << car.brand << ' ' << car.cost << ' ' << car.country << ' ' << car.color << ' ' << car.showroom << '\n';
+        }
+        ouputFile.close();
+
+    }
+
 
     void mainMenu() {
         int choice;
@@ -130,6 +145,7 @@ public:
 
         cars.push_back(newCar);
         std::cout << "Запись добавлена в базу данных.\n";
+        saveDatabase();
     }
 
     void deleteRecord() {
@@ -147,6 +163,7 @@ public:
         cars.erase(it, cars.end());
 
         std::cout << "Записи с брендом " << brandToDelete << ", цветом " << colorToDelete << " и производителем " << countryToDelete << " удалены.\n";
+        saveDatabase();
     }
 
     void viewDatabase() {
