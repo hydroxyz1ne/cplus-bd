@@ -9,12 +9,17 @@ Volkswagen 67000 Spain Orange SunsetHaven
 Nissan 52000 Brazil Purple RoyalOrchidOasis
 Hyundai 73000 India Pink BlushBoutique
 Audi 58000 Canada Brown MochaElegance
-BMW 68000 United Kingdom LightBlue SkylineBliss
-Mercedes-Benz 51000 South Korea Beige OasisBreeze
-Toyota 59000 Switzerland DarkBlue TwilightRetreat
-Honda 72000 Sweden Silver SilverLagoon
-Ford 50000 Russia Olive OliveOasis
-Chevrolet 64000 Finland Maroon RubyHaven
-Volkswagen 55000 Japan Graphite GraphiteEnclave
-Nissan 69000 Spain LightGray SilverHarmony
-Hyundai 60000 USA Golden GoldenVista
+BMW 68000 United Kingdom LightBlue
+Audi 50000 Russia Red CrimsonOasis
+BMW 60000 USA Blue AzureHaven
+Mercedes-Benz 45000 Germany Green EmeraldLounge
+Toyota 70000 France Yellow SunshineEmporium
+Honda 55000 Japan Black MidnightRetreat
+Ford 80000 Italy White IvoryPavilion
+Chevrolet 48000 China Gray SilverSerenity
+Volkswagen 67000 Spain Orange SunsetHaven
+Nissan 52000 Brazil Purple RoyalOrchidOasis
+Hyundai 73000 India Pink BlushBoutique
+Audi 58000 Canada Brown MochaElegance
+BMW 68000 United Kingdom LightBlue
+1 1 1 1 1

@@ -18,16 +18,17 @@ private:
     std::string filename;
 
 public:
+    CarDatabase() = default;  // Добавлен конструктор по умолчанию
+
     CarDatabase(const std::string& filePath) : filename(filePath) {
         loadDatabase(filename);
     }
 
-    // Load database from a file
     void loadDatabase(const std::string& filename) {
         std::ifstream inputFile(filename);
 
         if (!inputFile.is_open()) {
-            std::cerr << "Ошибка. Невозможно открыть файл" << filename << std::endl;
+            std::cerr << "Ошибка. Невозможно открыть файл " << filename << std::endl;
             return;
         }
 
@@ -37,6 +38,38 @@ public:
         }
 
         inputFile.close();
+    }
+
+    void newDataBase() {
+        std::cout << "Введите название файла: ";
+        std::string fileName;
+        std::cin >> fileName;
+
+        fileName += ".txt";
+
+        std::ofstream outputFile(fileName);
+
+        if (outputFile.is_open()) {
+            std::cout << "Файл успешно создан: " << fileName << "\n";
+            cars.clear();  // Очистить текущие данные при создании новой базы данных
+            filename = fileName;  // Установить новое имя файла для текущей базы данных
+        }
+        else {
+            std::cerr << "Не удалось создать файл.\n";
+        }
+    }
+
+    void openExistingDatabase() {
+        std::cout << "Введите путь к существующему файлу базы данных: ";
+        std::cin >> filename;
+
+        loadDatabase(filename);
+
+        std::cout << "База данных успешно открыта: " << filename << "\n";
+    }
+
+    std::string getFileName() const {
+        return filename;
     }
 
     void saveDatabase() {
@@ -283,9 +316,63 @@ public:
 
 int main() {
     setlocale(0, "rus");
-    std::string filePath = "C:\\Users\\Родик\\source\\repos\\cplus-bd\\car_database.txt";
-    CarDatabase carDB(filePath);
-    carDB.mainMenu();
-    carDB.saveDatabase();
+
+    std::string filePath;
+    CarDatabase carDB;
+
+    int choice;
+    do {
+        std::cout << "\n----- Меню базы данных -----\n";
+        std::cout << "(1) Посмотреть/изменить базу данных\n";
+        std::cout << "(2) Создать новую базу данных\n";
+        std::cout << "(0) Выход\n";
+        std::cout << "Введите значение действия, которое хотите выполнить: ";
+        std::cin >> choice;
+
+        switch (choice) {
+        case 1:
+            if (!filePath.empty()) {
+                carDB.loadDatabase(filePath);  // Загрузить текущую базу данных перед открытием меню
+                carDB.mainMenu();
+            }
+            else {
+                std::cout << "База данных не выбрана.\n";
+                std::cout << "(1) Открыть существующую базу данных\n";
+                std::cout << "(2) Создать новую базу данных\n";
+                std::cout << "Введите значение действия: ";
+                std::cin >> choice;
+
+                switch (choice) {
+                case 1:
+                    carDB.openExistingDatabase();
+                    filePath = carDB.getFileName();
+                    break;
+                case 2:
+                    carDB.newDataBase();
+                    filePath = carDB.getFileName();
+                    break;
+                default:
+                    std::cout << "Неизвестный вариант. Попробуйте что-то другое.\n";
+                }
+            }
+            break;
+        case 2:
+            carDB.newDataBase();
+            filePath = carDB.getFileName();  // Получить имя файла текущей базы данных
+            break;
+        case 0:
+            std::cout << "Выход из программы.\n";
+            break;
+        default:
+            std::cout << "Неизвестный вариант. Попробуйте что-то другое.\n";
+        }
+
+        std::cout << "Нажмите Enter для продолжения...";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    } while (choice != 0);
+
     return 0;
+
+    carDB.saveDatabase();
 }
