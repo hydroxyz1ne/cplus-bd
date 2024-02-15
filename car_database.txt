@@ -1,0 +1,13 @@
+Audi 50000 Russia Red Showroom1
+BMW 60000 USA Blue Showroom2
+Mercedes-Benz 45000 Germany Green Showroom3
+Toyota 70000 France Yellow Showroom4
+Honda 55000 Japan Black Showroom5
+Ford 80000 Italy White Showroom6
+Chevrolet 48000 China Gray Showroom7
+Volkswagen 67000 Spain Orange Showroom8
+Nissan 52000 Brazil Purple Showroom9
+Hyundai 73000 India Pink Showroom10
+Audi 58000 Canada Brown Showroom11
+BMW 68000 United Kingdom Blue
+1 1 1 1 1

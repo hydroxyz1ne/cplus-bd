@@ -15,9 +15,10 @@ struct Car {
 class CarDatabase {
 private:
     std::vector<Car> cars;
+    std::string filename;
 
 public:
-    CarDatabase(const std::string& filename) {
+    CarDatabase(const std::string& filePath) : filename(filePath) {
         loadDatabase(filename);
     }
 
@@ -39,17 +40,19 @@ public:
     }
 
     void saveDatabase() {
-        std::ifstream inputFile(filename);
+        std::ofstream outputFile(filename);
 
-        if (!inputFile.is_open()) {
-            std::cerr << "Невозможно сохранить файл." << filename << std::endl;
+        if (!outputFile.is_open()) {
+            std::cerr << "Невозможно сохранить файл: " << filename << std::endl;
             return;
         }
+
         for (const auto& car : cars) {
             outputFile << car.brand << ' ' << car.cost << ' ' << car.country << ' ' << car.color << ' ' << car.showroom << '\n';
         }
-        ouputFile.close();
 
+        outputFile.close();
+        std::cout << "База данных сохранена в файл: " << filename << std::endl;
     }
 
 
@@ -160,9 +163,15 @@ public:
         auto it = std::remove_if(cars.begin(), cars.end(), [brandToDelete, colorToDelete, countryToDelete](const Car& car) {
             return car.brand == brandToDelete && car.color == colorToDelete && car.country == countryToDelete;
             });
-        cars.erase(it, cars.end());
 
-        std::cout << "Записи с брендом " << brandToDelete << ", цветом " << colorToDelete << " и производителем " << countryToDelete << " удалены.\n";
+        if (it != cars.end()) {
+            cars.erase(it, cars.end());
+            std::cout << "Записи с брендом " << brandToDelete << ", цветом " << colorToDelete << " и производителем " << countryToDelete << " удалены.\n";
+        }
+        else {
+            std::cout << "Записи с брендом " << brandToDelete << ", цветом " << colorToDelete << " и производителем " << countryToDelete << " не найдены.\n";
+        }
+
         saveDatabase();
     }
 
@@ -274,8 +283,9 @@ public:
 
 int main() {
     setlocale(0, "rus");
-    std::string filePath = "C:\\Users\\Родик\\source\\repos\\hydroxyz1ne\\cplus-bd\\ConsoleApplication1\\car_database.txt";
+    std::string filePath = "C:\\Users\\Родик\\source\\repos\\cplus-bd\\car_database.txt";
     CarDatabase carDB(filePath);
     carDB.mainMenu();
+    carDB.saveDatabase();
     return 0;
 }
